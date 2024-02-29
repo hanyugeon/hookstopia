@@ -1,12 +1,15 @@
 import { ComponentPropsWithoutRef, Ref, forwardRef } from "react";
 
+type RadioProps = Omit<
+  ComponentPropsWithoutRef<"input">,
+  "id" | "type" | "className"
+> & {
+  title: string;
+};
+
 const RadioButton = forwardRef(
   (
-    {
-      name,
-      value,
-      ...props
-    }: Omit<ComponentPropsWithoutRef<"input">, "id" | "type" | "className">,
+    { name, value, title, ...props }: RadioProps,
     ref: Ref<HTMLInputElement>
   ) => {
     return (
@@ -20,7 +23,7 @@ const RadioButton = forwardRef(
           ref={ref}
           {...props}
         />
-        <span>{value}</span>
+        <span>{title}</span>
       </label>
     );
   }
