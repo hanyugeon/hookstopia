@@ -1,4 +1,6 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useFormContext } from "react-hook-form";
+
+import type { FunnelFormValues } from "@/pages/Funnel";
 
 import Button from "@/components/base/Button";
 import Radio from "@/components/base/Radio";
@@ -8,27 +10,17 @@ type SecondFormProps = {
   setPrevStep: () => void;
 };
 
-type FormValues = {
-  sex: string;
-};
-
 const SecondForm = ({ setNextStep, setPrevStep }: SecondFormProps) => {
-  const { register, handleSubmit } = useForm<FormValues>({
-    mode: "all",
-    defaultValues: {
-      sex: "",
-    },
-  });
+  const { register, handleSubmit } = useFormContext<FunnelFormValues>();
 
-  const handleSubmitForm: SubmitHandler<FormValues> = ({ sex }) => {
-    console.log(`성별: ${sex}`);
+  const handleSubmitForm: SubmitHandler<FunnelFormValues> = ({ sex }) => {
     alert(`성별: ${sex}`);
 
     return setNextStep();
   };
 
   return (
-    <form>
+    <>
       <Radio
         {...register("sex", { required: "성별을 선택해주세요!" })}
         title="남성"
@@ -41,7 +33,7 @@ const SecondForm = ({ setNextStep, setPrevStep }: SecondFormProps) => {
       />
       <Button onClick={setPrevStep}>이전으로</Button>
       <Button onClick={handleSubmit(handleSubmitForm)}>다음으로</Button>
-    </form>
+    </>
   );
 };
 

@@ -1,4 +1,6 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useFormContext } from "react-hook-form";
+
+import type { FunnelFormValues } from "@/pages/Funnel";
 
 import Button from "@/components/base/Button";
 import Input from "@/components/base/Input";
@@ -7,29 +9,17 @@ type FirstFormProps = {
   setNextStep: () => void;
 };
 
-type FormValues = {
-  name: string;
-  age: string;
-};
-
 const FirstForm = ({ setNextStep }: FirstFormProps) => {
-  const { register, handleSubmit } = useForm<FormValues>({
-    mode: "all",
-    defaultValues: {
-      name: "",
-      age: "",
-    },
-  });
+  const { register, handleSubmit } = useFormContext<FunnelFormValues>();
 
-  const handleSubmitForm: SubmitHandler<FormValues> = ({ name, age }) => {
-    console.log(`이름: ${name}, 나이: ${age}`);
+  const handleSubmitForm: SubmitHandler<FunnelFormValues> = ({ name, age }) => {
     alert(`이름: ${name}, 나이: ${age}`);
 
     return setNextStep();
   };
 
   return (
-    <form>
+    <>
       <Input
         placeholder="이름을 입력해주세요."
         {...register("name", {
@@ -45,7 +35,7 @@ const FirstForm = ({ setNextStep }: FirstFormProps) => {
         })}
       />
       <Button onClick={handleSubmit(handleSubmitForm)}>다음으로</Button>
-    </form>
+    </>
   );
 };
 
